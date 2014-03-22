@@ -1,7 +1,6 @@
 target
 .settings/*
 !.settings/.jsdtscope
-.project
 .classpath
 *.DS_Store
 README.md
