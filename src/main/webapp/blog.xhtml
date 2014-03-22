@@ -1,0 +1,111 @@
+
+<!DOCTYPE HTML>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/template/template.xhtml">
+
+	<ui:define name="head">
+		<title><h:outputText value="#{msg.html_title}" /></title>
+		
+		<meta property="og:title" content="#{msg.html_title}" />
+		<meta property="og:url" content="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{individualPostBean.actual.url}" />
+
+	</ui:define>
+
+	<ui:define name="content">
+		<p:breadCrumb styleClass="blog">
+			<p:menuitem value="#{msg.site_menu_index}" url="http://machadolucas.me" />
+			<p:menuitem value="#{msg.site_menu_blog}" url="blog" />
+		</p:breadCrumb>
+
+		<h1 class="sectionTitle">
+			<h:outputText value="#{msg.site_menu_blog}" />
+		</h1>
+		<div id="frameblog">
+			<h:form>
+
+				<p:spacer height="50" rendered="#{!empty blogBean.lastPosts}" />
+				
+				<p:dataTable styleClass="postsDatatable"
+					emptyMessage="#{msg.primefaces_datatable_empty_message}" filteredValue="#{blogBean.filteredPostsList}"
+					pageLinks="#{msg.primefaces_datatable_pagelinks}" paginator="true"
+					paginatorAlwaysVisible="false" rowKey="#{element.id}" rows="10"
+					value="#{blogBean.postsList}" var="element">
+
+					<f:facet name="header">
+						<h:outputText value="#{msg.admin_posts_datatable_header}" />
+					</f:facet>
+
+					<p:column sortBy="#{element.title}" filterBy="#{element.title}" filterMatchMode="contains"
+						headerText="#{msg.admin_posts_datatable_title}">
+						<f:facet name="header">
+							<h:outputText value="#{msg.admin_posts_datatable_title}" />
+						</f:facet>
+						<h:outputLink value="#{element.url}"
+							rendered="#{element.author.name != ''}">
+							<h:outputText value="#{element.title}" />
+						</h:outputLink>
+					</p:column>
+
+					<p:column sortBy="#{element.author.name}"
+						filterBy="#{element.author.name}"  filterMatchMode="contains"
+						headerText="#{msg.admin_posts_datatable_author}">
+						<f:facet name="header">
+							<h:outputText value="#{msg.admin_posts_datatable_author}" />
+						</f:facet>
+						<p:graphicImage styleClass="blinking"
+							style="height: 16px; width: 16px;"
+							rendered="#{element.author.name == ''}"
+							url="/resources/img/exclamation-mark.png" />
+						<h:outputText value="#{element.author.name}" />
+					</p:column>
+
+					<p:column sortBy="#{element.date}"
+						headerText="#{msg.admin_posts_datatable_date}">
+						<f:facet name="header">
+							<h:outputText value="#{msg.admin_posts_datatable_date}" />
+						</f:facet>
+						<h:outputFormat value="#{element.date}">
+							<f:convertDateTime pattern="dd.MM.YYYY" />
+						</h:outputFormat>
+					</p:column>
+				</p:dataTable>
+
+				<p:spacer height="50" rendered="#{!empty blogBean.lastPosts}" />
+				
+				<p:dataGrid var="author" value="#{blogBean.authorsListNonStatic}"
+					styleClass="dataPaginator" columns="2"
+					rendered="#{!empty blogBean.lastPosts}">
+					<f:facet name="header">
+						<h:outputText value="#{msg.site_blog_authors}" />
+					</f:facet>
+					<h:outputLink value="#{author.url}" styleClass="listitemlink authorItem">
+						<p:graphicImage rendered="#{author.photoUrl != null}"
+							styleClass="authorMiniatureNoNegativeMargin"
+							url="#{author.photoUrl}" />
+						<p style="float: left; padding: 20px; font-size: 20px; margin:0px">
+							<h:outputText value="#{author.name}" />
+						</p>
+					</h:outputLink>
+				</p:dataGrid>
+
+
+			</h:form>
+
+			<p:spacer height="100px" />
+
+			<p:panel rendered="#{empty blogBean.lastPosts}">
+				<h:outputText value="#{msg.primefaces_datatable_empty_message}" />
+			</p:panel>
+
+		</div>
+		<div class="footer unselectable">
+			<p style="text-align: center; margin: 0px;">Copyright ©
+				Lucas Machado</p>
+		</div>
+	</ui:define>
+</ui:composition>

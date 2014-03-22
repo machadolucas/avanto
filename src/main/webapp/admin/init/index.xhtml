@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<title><h:outputText value="#{msg.html_title}" /></title>
+
+	<link rel="icon" type="image/ico"
+		href="#{facesContext.externalContext.requestContextPath}/resources/img/favicon.ico" />
+
+
+</h:head>
+<h:body>
+	<p:growl id="growl" showDetail="true" showSummary="true"
+		autoUpdate="true" sticky="true" />
+
+	<h:form rendered="#{!initializationBean.initialized}">
+
+		<p:fieldset legend="System account">
+			<p:panelGrid columns="3">
+
+				<h:outputLabel value="E-mail" for="accountEmail" />
+				<p:inputText id="accountEmail" required="true"
+					requiredMessage="#{msg.required_field_message}" />
+				<p:messages for="accountEmail" />
+
+				<h:outputLabel value="Password" for="password" />
+				<p:password id="password" required="true" match="passwordconf"
+					feedback="true" inline="true"
+					requiredMessage="#{msg.required_field_message}" />
+				<p:messages for="password" />
+
+				<h:outputLabel value="Confirmation" for="passwordconf" />
+				<p:password id="passwordconf" required="true"
+					requiredMessage="#{msg.required_field_message}" />
+				<p:messages for="passwordconf" />
+
+			</p:panelGrid>
+
+		</p:fieldset>
+
+
+	</h:form>
+
+	<p:panel rendered="#{initializationBean.initialized}">
+		<h:outputText value="System is already initialized!" />
+	</p:panel>
+
+	<p:ajaxStatus onstart="statusDialog.show();"
+		oncomplete="statusDialog.hide();" />
+
+	<p:dialog modal="true" closable="false" draggable="false"
+		resizable="false" showHeader="false" widgetVar="statusDialog">
+		<h:panelGrid style="text-align: center;">
+			<h:outputText value="#{msg.ajaxstatus_loading_message}" />
+			<p:graphicImage value="/resources/img/loading.gif" />
+		</h:panelGrid>
+	</p:dialog>
+
+</h:body>
+</html>

@@ -1,0 +1,141 @@
+
+<!DOCTYPE HTML>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/admin/template.xhtml">
+
+
+	<ui:define name="breadcrumb">
+		<p:breadCrumb>
+			<p:menuitem value="#{msg.admin_menu_home}"
+				title="#{msg.admin_menu_home}" url="../index.jsf" />
+			<p:menuitem value="#{msg.admin_menu_data}"
+				title="#{msg.admin_menu_data}" url="#" />
+			<p:menuitem value="#{msg.admin_menu_data_posts}"
+				title="#{msg.admin_menu_data_posts}" url="main.jsf" />
+			<p:menuitem value="#{msg.admin_entity_add}"
+				title="#{msg.admin_entity_add}" url="#" />
+		</p:breadCrumb>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h1>
+			<h:outputText value="#{msg.admin_entity_add}" />
+		</h1>
+
+		<h:form styleClass="adminForm">
+
+
+			<p:fieldset toggleable="true" collapsed="false" legend="Info">
+				<p:panelGrid columns="4"
+					columnClasses="requiredSymbolColumn,labelColumn,inputColumn,messagesColumn">
+
+					<h:outputText value="*" />
+					<h:outputLabel value="#{msg.admin_posts_datatable_status}"
+						for="status" />
+					<p:selectOneButton id="status" value="#{postsBean.bean.status}"
+						required="true" requiredMessage="#{msg.required_field_message}">
+						<f:selectItem itemLabel="draft" itemValue="draft" />
+						<f:selectItem itemLabel="published" itemValue="published" />
+					</p:selectOneButton>
+					<p:messages for="status" />
+
+					<h:outputText value="*" />
+					<h:outputLabel value="#{msg.admin_posts_datatable_locale}"
+						for="locale" />
+					<p:selectOneListbox id="locale" value="#{postsBean.bean.locale}"
+						required="true" requiredMessage="#{msg.required_field_message}">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="#{msg.primefaces_select_one_menu_default_item}" />
+						<f:selectItem itemLabel="pt" itemValue="pt" />
+						<f:selectItem itemLabel="en" itemValue="en" />
+					</p:selectOneListbox>
+					<p:messages for="locale" />
+
+					<h:outputText value="*" />
+					<h:outputLabel value="#{msg.admin_posts_datatable_date}" for="date" />
+					<p:calendar id="date" value="#{postsBean.bean.date}"
+						pattern="dd.MM.yyyy" required="true"
+						requiredMessage="#{msg.required_field_message}" />
+					<p:messages for="date" />
+
+					<h:outputText value="*" />
+					<h:outputLabel value="#{msg.admin_posts_datatable_author}"
+						for="author" />
+					<p:selectOneListbox id="author" value="#{postsBean.bean.author}"
+						required="true" requiredMessage="#{msg.required_field_message}">
+						<f:selectItem noSelectionOption="true"
+							itemLabel="#{msg.primefaces_select_one_menu_default_item}"
+							itemValue="" />
+						<f:selectItems value="#{postsBean.authors}" var="aut"
+							itemLabel="#{aut.name}" itemValue="#{aut}" />
+						<f:converter converterId="authorConverter" />
+					</p:selectOneListbox>
+					<p:messages for="author" />
+
+					<h:outputText />
+					<h:outputLabel value="Post about a serie of posts?"
+						for="serieboolean" />
+					<p:selectBooleanCheckbox id="serieboolean"
+						value="#{postsBean.bean.serie}">
+						<p:ajax update="seriePosts" partialSubmit="true" global="false" />
+					</p:selectBooleanCheckbox>
+					<p:messages for="serieboolean" />
+				</p:panelGrid>
+
+				<p:pickList id="seriePosts" value="#{postsBean.postseries}"
+					disabled="#{not postsBean.bean.serie}" var="post"
+					itemValue="#{post}" itemLabel="#{post.title}"
+					converter="primeFacesPickListConverter" showTargetControls="true"
+					showSourceFilter="true" showTargetFilter="true"
+					filterMatchMode="contains">
+
+					<f:facet name="sourceCaption">Available</f:facet>
+					<f:facet name="targetCaption">Choosed</f:facet>
+				</p:pickList>
+
+			</p:fieldset>
+
+			<br />
+
+			<p:fieldset>
+				<p:panelGrid columns="4"
+					columnClasses="requiredSymbolColumn,labelColumn,inputColumn,messagesColumn">
+
+					<h:outputText value="*" />
+					<h:outputLabel value="Title" for="title" />
+					<p:inputText id="title" value="#{postsBean.bean.title}"
+						required="true" styleClass="titleInput"
+						requiredMessage="#{msg.required_field_message}" />
+					<p:messages for="title" />
+
+				</p:panelGrid>
+				<br />
+				<p:editor value="#{postsBean.bean.content}" width="920" height="600"
+					required="true" requiredMessage="#{msg.required_field_message}" />
+
+			</p:fieldset>
+
+			<br />
+			<p:spacer height="50px" />
+
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:commandButton label="#{msg.admin_entity_save}"
+						value="#{msg.admin_entity_save}" title="#{msg.admin_entity_save}"
+						icon="ui-icon ui-icon-disk" action="#{postsBean.save}"
+						update="@form" />
+					<p:commandButton label="#{msg.admin_entity_cancel}"
+						value="#{msg.admin_entity_cancel}" action="#{postsBean.cancel}"
+						title="#{msg.admin_entity_cancel}" icon="ui-icon ui-icon-cancel"
+						immediate="true" />
+				</p:toolbarGroup>
+			</p:toolbar>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

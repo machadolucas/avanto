@@ -1,0 +1,111 @@
+
+<!DOCTYPE HTML>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/admin/template.xhtml">
+
+
+	<ui:define name="breadcrumb">
+		<p:breadCrumb>
+			<p:menuitem value="#{msg.admin_menu_home}"
+				title="#{msg.admin_menu_home}" url="../index.jsf" />
+			<p:menuitem value="#{msg.admin_menu_data}"
+				title="#{msg.admin_menu_data}" url="#" />
+			<p:menuitem value="#{msg.admin_menu_data_author}"
+				title="#{msg.admin_menu_data_author}" url="main.jsf" />
+			<p:menuitem value="#{msg.admin_entity_edit}"
+				title="#{msg.admin_entity_edit}" url="#" />
+		</p:breadCrumb>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h1>
+			<h:outputText value="#{msg.admin_entity_edit}" />
+		</h1>
+
+
+		<h:form id="mainForm" styleClass="adminForm" prependId="false">
+
+			<p:fieldset>
+				<p:panelGrid columns="4"
+					columnClasses="requiredSymbolColumn,labelColumn,inputColumn,messagesColumn">
+
+					<h:outputText value="*" />
+					<h:outputLabel value="Name" for="name" />
+					<p:inputText id="name" value="#{authorBean.bean.name}"
+						required="true" requiredMessage="#{msg.required_field_message}" />
+					<p:messages for="name" />
+
+					<h:outputText value="*" />
+					<h:outputLabel value="E-mail" for="email" />
+					<p:inputText id="email" value="#{authorBean.bean.email}"
+						required="true" requiredMessage="#{msg.required_field_message}" />
+					<p:messages for="email" />
+
+					<h:outputText />
+					<h:outputLabel value="Facebook link" for="facebook" />
+					<p:inputText id="facebook" value="#{authorBean.bean.facebook}"
+						required="false" requiredMessage="#{msg.required_field_message}" />
+					<p:messages for="facebook" />
+
+					<h:outputText />
+					<h:outputLabel value="Twitter link" for="twitter" />
+					<p:inputText id="twitter" value="#{authorBean.bean.twitter}"
+						required="false" requiredMessage="#{msg.required_field_message}" />
+					<p:messages for="twitter" />
+
+					<h:outputText />
+					<h:outputLabel value="LinkedIn link" for="linkedin" />
+					<p:inputText id="linkedin" value="#{authorBean.bean.linkedin}"
+						required="false" requiredMessage="#{msg.required_field_message}" />
+					<p:messages for="linkedin" />
+
+					<h:outputText />
+					<h:outputLabel value="Description" for="description" />
+					<p:inputTextarea id="description"
+						value="#{authorBean.bean.description}" />
+					<p:messages for="description" />
+
+					<h:outputText />
+					<h:outputLabel value="Image" for="image" />
+					<p:inputText id="image" value="#{authorBean.bean.photoUrl}"
+						required="false" />
+					<p:messages for="image" />
+
+					<h:outputText />
+					<h:outputLabel value="Preview" />
+					<p:graphicImage id="picturePreview"
+						url="#{authorBean.bean.photoUrl != ''? authorBean.bean.photoUrl : '#'}"
+						style="height: 150px; width: 150px; border: 2px solid #666; border-radius: 100px;"
+						cache="false" title="The image refreshes automatically" />
+					<h:outputText />
+
+				</p:panelGrid>
+			</p:fieldset>
+
+			<script type="text/javascript">
+				$('#image').change(function() { $('#picturePreview').attr('src',$('#image').val()) });
+			</script>
+
+			<br />
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:commandButton label="#{msg.admin_entity_save}"
+						value="#{msg.admin_entity_save}" title="#{msg.admin_entity_save}"
+						action="#{authorBean.update}" icon="ui-icon ui-icon-disk"
+						update=":mainForm" />
+					<p:commandButton label="#{msg.admin_entity_cancel}"
+						value="#{msg.admin_entity_cancel}" action="#{authorBean.cancel}"
+						title="#{msg.admin_entity_cancel}" icon="ui-icon ui-icon-cancel"
+						immediate="true" />
+				</p:toolbarGroup>
+			</p:toolbar>
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>

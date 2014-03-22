@@ -1,0 +1,116 @@
+
+<!DOCTYPE HTML>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/admin/template.xhtml">
+
+
+	<ui:define name="breadcrumb">
+		<p:breadCrumb>
+			<p:menuitem value="#{msg.admin_menu_home}"
+				title="#{msg.admin_menu_home}" url="../index.jsf" />
+			<p:menuitem value="#{msg.admin_menu_general}"
+				title="#{msg.admin_menu_general}" url="#" />
+			<p:menuitem value="#{msg.admin_menu_general_user_config}"
+				title="#{msg.admin_menu_general_user_config}" url="index.jsf" />
+		</p:breadCrumb>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="mainForm">
+
+			<ui:include src="/admin/dataexporter-toolbar.xhtml" />
+
+			<p:contextMenu for="dataTable">
+				<p:menuitem value="#{msg.admin_entity_edit}"
+					title="#{msg.admin_entity_edit}" action="#{webAppUserBean.edit}"
+					icon="ui-icon ui-icon-pencil" />
+				<p:menuitem value="#{msg.admin_entity_delete}"
+					title="#{msg.admin_entity_delete}"
+					actionListener="#{webAppUserBean.dialogIfSelected}"
+					oncomplete="handleDeletePopupRequest(xhr, status, args)"
+					icon="ui-icon ui-icon-trash" />
+			</p:contextMenu>
+			<p:dataTable id="dataTable"
+				emptyMessage="#{msg.primefaces_datatable_empty_message}"
+				pageLinks="#{msg.primefaces_datatable_pagelinks}" paginator="true"
+				paginatorAlwaysVisible="false" rowKey="#{element.id}" rows="10"
+				selection="#{webAppUserBean.bean}" var="element"
+				value="#{webAppUserBean.list}" filteredValue="#{webAppUserBean.filteredList}"
+				rowsPerPageTemplate="#{msg.primefaces_table_paginator_rows_per_page_template}"
+				selectionMode="single">
+
+
+				<f:facet name="header">
+					<h:outputText value="#{msg.admin_webappuser_datatable_header}" />
+				</f:facet>
+
+				<p:column sortBy="#{element.name}" filterBy="#{element.name}"
+					filterMatchMode="contains" headerText="Title">
+					<f:facet name="header">
+						<h:outputText value="#{msg.admin_author_datatable_name}" />
+					</f:facet>
+					<h:outputText value="#{element.name}" />
+				</p:column>
+
+				<p:column sortBy="#{element.email}" filterBy="#{element.email}"
+					filterMatchMode="contains" headerText="Date">
+					<f:facet name="header">
+						<h:outputText value="#{msg.admin_author_datatable_email}" />
+					</f:facet>
+					<h:outputText value="#{element.email}" />
+				</p:column>
+			</p:dataTable>
+
+
+
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:commandButton label="#{msg.admin_entity_add}"
+						value="#{msg.admin_entity_add}" title="#{msg.admin_entity_add}"
+						action="#{webAppUserBean.add}" icon="ui-icon ui-icon-document"
+						ajax="false" />
+					<p:commandButton label="#{msg.admin_entity_edit}"
+						value="#{msg.admin_entity_edit}" title="#{msg.admin_entity_edit}"
+						action="#{webAppUserBean.edit}" icon="ui-icon ui-icon-pencil"
+						ajax="false" />
+					<p:commandButton label="#{msg.admin_entity_delete}"
+						value="#{msg.admin_entity_delete}"
+						title="#{msg.admin_entity_delete}"
+						actionListener="#{webAppUserBean.dialogIfSelected}"
+						oncomplete="handleDeletePopupRequest(xhr, status, args)"
+						icon="ui-icon ui-icon-trash" />
+				</p:toolbarGroup>
+			</p:toolbar>
+		</h:form>
+
+	</ui:define>
+
+	<ui:define name="dialogs">
+		<p:confirmDialog message="#{msg.command_delete_confirmation} #{webAppUserBean.bean.name}"
+			header="#{msg.primefaces_confirmDialog_delete_header}"
+			id="confirmDeleteDialog" widgetVar="confirmDeleteDialogWid">
+			<h:form id="confirmDeleteForm">
+
+				<p:commandButton id="confirmDeleteButton"
+					label="#{msg.global_generic_label_yes}"
+					title="#{msg.command_confirm_alt}"
+					value="#{msg.global_generic_label_yes}"
+					icon="ui-icon ui-icon-trash" update=":mainForm:dataTable"
+					actionListener="#{webAppUserBean.delete}"
+					oncomplete="confirmDeleteDialogWid.hide()" />
+				<p:commandButton type="button"
+					label="#{msg.global_generic_label_no}"
+					title="#{msg.command_cancel_alt}"
+					value="#{msg.global_generic_label_no}" icon="ui-icon ui-icon-close"
+					onclick="confirmDeleteDialogWid.hide()" />
+			</h:form>
+
+		</p:confirmDialog>
+	</ui:define>
+
+</ui:composition>

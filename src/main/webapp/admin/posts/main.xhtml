@@ -1,0 +1,183 @@
+
+<!DOCTYPE HTML>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/admin/template.xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+	<ui:define name="breadcrumb">
+		<p:breadCrumb>
+			<p:menuitem value="#{msg.admin_menu_home}"
+				title="#{msg.admin_menu_home}" url="../index.jsf" />
+			<p:menuitem value="#{msg.admin_menu_data}"
+				title="#{msg.admin_menu_data}" url="#" />
+			<p:menuitem value="#{msg.admin_menu_data_posts}"
+				title="#{msg.admin_menu_data_posts}" url="index.jsf" />
+		</p:breadCrumb>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="mainForm">
+
+			<ui:include src="/admin/dataexporter-toolbar.xhtml" />
+
+			<p:contextMenu for="dataTable">
+				<p:menuitem value="#{msg.admin_entity_edit}"
+					title="#{msg.admin_entity_edit}" action="#{postsBean.edit}"
+					icon="ui-icon ui-icon-pencil" />
+				<p:menuitem value="#{msg.admin_entity_export_xml}"
+					title="#{msg.admin_entity_export_xml}"
+					actionListener="#{postsBean.exportXML}"
+					icon="ui-icon ui-icon-document" ajax="false">
+					<p:fileDownload value="#{postsBean.exportedXML}" />
+				</p:menuitem>
+				<p:menuitem value="#{msg.admin_entity_delete}"
+					title="#{msg.admin_entity_delete}"
+					actionListener="#{postsBean.dialogIfSelected}"
+					oncomplete="handleDeletePopupRequest(xhr, status, args)"
+					icon="ui-icon ui-icon-trash" />
+			</p:contextMenu>
+			<p:dataTable id="dataTable"
+				emptyMessage="#{msg.primefaces_datatable_empty_message}"
+				pageLinks="#{msg.primefaces_datatable_pagelinks}" paginator="true"
+				paginatorAlwaysVisible="false" rowKey="#{element.id}" rows="10"
+				selection="#{postsBean.bean}" var="element"
+				value="#{postsBean.list}" filteredValue="#{postsBean.filteredList}"
+				rowsPerPageTemplate="#{msg.primefaces_table_paginator_rows_per_page_template}"
+				selectionMode="single">
+
+
+				<f:facet name="header">
+					<h:outputText value="#{msg.admin_posts_datatable_header}" />
+				</f:facet>
+
+				<p:column sortBy="#{element.url}"
+					headerText="URL">
+					<f:facet name="header">
+						<h:outputText value="URL" />
+					</f:facet>
+					<h:outputLink value="#{element.url}" target="_blank">
+						<h:outputText value="#{element.url}" />
+					</h:outputLink>
+				</p:column>
+
+				<p:column sortBy="#{element.title}" filterBy="#{element.title}"
+					filterMatchMode="contains"
+					headerText="#{msg.admin_posts_datatable_title}">
+					<f:facet name="header">
+						<h:outputText value="#{msg.admin_posts_datatable_title}" />
+					</f:facet>
+					<h:outputText value="#{element.title}" />
+				</p:column>
+
+				<p:column sortBy="#{element.locale}" filterBy="#{element.locale}"
+					filterMatchMode="contains"
+					headerText="#{msg.admin_posts_datatable_locale}">
+					<f:facet name="header">
+						<h:outputText value="#{msg.admin_posts_datatable_locale}" />
+					</f:facet>
+					<h:outputText value="#{element.locale}" />
+				</p:column>
+
+				<p:column sortBy="#{element.status}" filterBy="#{element.status}"
+					filterMatchMode="contains"
+					headerText="#{msg.admin_posts_datatable_status}">
+					<f:facet name="header">
+						<h:outputText value="#{msg.admin_posts_datatable_status}" />
+					</f:facet>
+					<h:outputText value="#{element.status}" />
+				</p:column>
+
+				<p:column sortBy="#{element.author.name}"
+					filterBy="#{element.author.name}" filterMatchMode="contains"
+					headerText="#{msg.admin_posts_datatable_author}">
+					<f:facet name="header">
+						<h:outputText value="#{msg.admin_posts_datatable_author}" />
+					</f:facet>
+					<p:graphicImage styleClass="blinking"
+						style="height: 16px; width: 16px;"
+						rendered="#{element.author.name == ''}"
+						url="/resources/img/exclamation-mark.png" />
+					<h:outputText value="#{element.author.name}" />
+				</p:column>
+
+				<p:column sortBy="#{element.date}"
+					headerText="#{msg.admin_posts_datatable_date}">
+					<f:facet name="header">
+						<h:outputText value="#{msg.admin_posts_datatable_date}" />
+					</f:facet>
+					<h:outputFormat value="#{element.date}">
+						<f:convertDateTime pattern="dd.MM.YYYY" />
+					</h:outputFormat>
+				</p:column>
+
+			</p:dataTable>
+
+
+
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:commandButton label="#{msg.admin_entity_add}"
+						value="#{msg.admin_entity_add}" title="#{msg.admin_entity_add}"
+						action="#{postsBean.add}" icon="ui-icon ui-icon-document" />
+					<p:commandButton label="#{msg.admin_entity_edit}"
+						value="#{msg.admin_entity_edit}" title="#{msg.admin_entity_edit}"
+						action="#{postsBean.edit}" icon="ui-icon ui-icon-pencil" />
+					<p:commandButton label="#{msg.admin_entity_delete}"
+						value="#{msg.admin_entity_delete}"
+						title="#{msg.admin_entity_delete}"
+						actionListener="#{postsBean.dialogIfSelected}"
+						oncomplete="handleDeletePopupRequest(xhr, status, args)"
+						icon="ui-icon ui-icon-trash" />
+					<p:separator />
+					<p:commandButton label="#{msg.admin_entity_export_xml}"
+						value="#{msg.admin_entity_export_xml}"
+						title="#{msg.admin_entity_export_xml}"
+						actionListener="#{postsBean.exportXML}"
+						icon="ui-icon ui-icon-document" ajax="false">
+						<p:fileDownload value="#{postsBean.exportedXML}" />
+					</p:commandButton>
+				</p:toolbarGroup>
+			</p:toolbar>
+
+		</h:form>
+		<h:form enctype="multipart/form-data">
+			<p:spacer height="50px" />
+			<p:fieldset legend="Import Post from XML file" style="width:35%">
+				<p:fileUpload fileUploadListener="#{postsBean.importXML}"
+					allowTypes="/(\.|\/)(xml)$/" mode="advanced" auto="false"
+					update=":mainForm" multiple="true" />
+			</p:fieldset>
+		</h:form>
+
+	</ui:define>
+
+	<ui:define name="dialogs">
+		<p:confirmDialog message="#{msg.command_delete_confirmation} #{postsBean.bean.title}?"
+			header="#{msg.primefaces_confirmDialog_delete_header}"
+			id="confirmDeleteDialog" widgetVar="confirmDeleteDialogWid">
+			<h:form id="confirmDeleteForm">
+
+				<p:commandButton id="confirmDeleteButton"
+					label="#{msg.global_generic_label_yes}"
+					title="#{msg.command_confirm_alt}"
+					value="#{msg.global_generic_label_yes}"
+					icon="ui-icon ui-icon-trash" update=":mainForm:dataTable"
+					actionListener="#{postsBean.delete}"
+					oncomplete="confirmDeleteDialogWid.hide()" />
+				<p:commandButton type="button"
+					label="#{msg.global_generic_label_no}"
+					title="#{msg.command_cancel_alt}"
+					value="#{msg.global_generic_label_no}" icon="ui-icon ui-icon-close"
+					onclick="confirmDeleteDialogWid.hide()" />
+			</h:form>
+
+		</p:confirmDialog>
+	</ui:define>
+
+</ui:composition>

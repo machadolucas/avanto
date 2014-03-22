@@ -1,0 +1,113 @@
+
+<!DOCTYPE HTML>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/template/template.xhtml">
+
+	<ui:define name="head">
+		<title><h:outputText
+				value="#{individualPostBean.actual.title}" /></title>
+		<link rel="author"
+			href="https://plus.google.com/113175313877595797913?rel=author" />
+		<link rel="canonical"
+			href="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{individualPostBean.actual.url}" />
+
+		<meta property="og:title" content="#{individualPostBean.actual.title}" />
+		<meta property="og:url" content="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{individualPostBean.actual.url}" />
+		<meta property="og:type" content="article" />
+		<meta property="article:author" content="https://www.facebook.com/sir.lucas.machado" />
+		<meta property="article:published_time" content="#{individualPostBean.actual.date}" />
+
+	</ui:define>
+
+	<ui:define name="content">
+		<p:breadCrumb styleClass="blog">
+			<p:menuitem value="#{msg.site_menu_index}" url="http://machadolucas.me" />
+			<p:menuitem value="#{msg.site_menu_blog}" url="../../blog" />
+			<p:menuitem value="#{individualPostBean.actual.title}" url="#" />
+		</p:breadCrumb>
+
+		<article class="post" itemtype="http://schema.org/Article"
+			itemscope="">
+		<div class="headBlurry">
+			<header>
+			<h1 class="posttitle">
+				<h:outputLink value="#{individualPostBean.actual.url}">
+					<span itemprop="name"><h:outputText
+							value="#{individualPostBean.actual.title}" /></span>
+				</h:outputLink>
+			</h1>
+			</header>
+			<h6 class="subtitle">
+				<time itemprop="datePublished" pubdate="true">
+				<h:outputText value="#{individualPostBean.actual.date}">
+					<f:convertDateTime pattern="dd.MM.yyyy" />
+				</h:outputText></time>
+				<h:outputLink value="#{individualPostBean.actual.author.url}"
+					styleClass="authorUrl">
+					<span itemprop="author" itemtype="http://schema.org/Person"
+						itemscope=""> <span itemprop="name"><h:outputText
+								value="/  #{individualPostBean.actual.author.name}" /></span></span>
+					<p:graphicImage
+						rendered="#{individualPostBean.actual.author.photoUrl != null}"
+						styleClass="authorMiniature"
+						url="#{individualPostBean.actual.author.photoUrl}" />
+				</h:outputLink>
+			</h6>
+		</div>
+		<div id="framepost">
+			<div id="post">
+				<span class="content" itemprop="articleBody"><h:outputFormat
+						value="#{individualPostBean.actual.content}" escape="false" />
+						
+				<p:dataList value="#{individualPostBean.actual.seriePosts}" var="post" type="ordered" styleClass="postSeriesList" rendered="#{individualPostBean.actual.serie}">
+					<h:outputLink value="#{post.url}">#{post.title}</h:outputLink>
+				</p:dataList>
+				</span>
+
+				<p:spacer height="30" />
+				<!-- AddThis Button BEGIN -->
+				<div
+					class="addthis_toolbox addthis_default_style addthis_32x32_style">
+					<a class="addthis_button_facebook"></a> <a
+						class="addthis_button_twitter"></a> <a
+						class="addthis_button_google_plusone_share"></a> <a
+						class="addthis_button_email"></a> <a
+						class="addthis_button_compact"></a><a
+						class="addthis_counter addthis_bubble_style"></a>
+				</div>
+				<script type="text/javascript"
+					src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-5255dcc37d0652ba"></script>
+				<!-- AddThis Button END -->
+
+				<div id="disqusdiv">
+					<div id="disqus_thread"></div>
+					<script type="text/javascript">
+        
+		        var disqus_shortname = 'machadolucas';
+				var disqus_identifier = 'post_#{individualPostBean.actual.id}';	        
+		        (function() {
+		            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+		        })();
+    		</script>
+					<noscript>
+						Please enable JavaScript to view the <a
+							href="http://disqus.com/?ref_noscript">comments powered by
+							Disqus.</a>
+					</noscript>
+				</div>
+			</div>
+		</div>
+		</article>
+
+		<p:spacer height="100" />
+
+
+	</ui:define>
+</ui:composition>

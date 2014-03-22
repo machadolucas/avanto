@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" lang="#{localeBean.language}">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="expires" content="0" />
+
+	<link rel="icon" type="image/ico"
+		href="#{facesContext.externalContext.requestContextPath}/resources/img/favicon.ico" />
+
+	<link rel="stylesheet" type="text/css"
+		href="#{facesContext.externalContext.requestContextPath}/resources/style.css"
+		media="all" />
+
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/resources/js/script.js" />
+
+	<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1" />
+
+	<ui:insert name="head" />
+	
+	<meta property="og:site_name" content="machadolucas" />
+	<meta property="og:image" content="#{facesContext.externalContext.requestContextPath}/resources/img/site_logo.jpg" />
+
+	<f:view locale="#{localeBean.locale}" />
+</h:head>
+<h:body>
+	<p:growl id="growl" showDetail="true" showSummary="true"
+		autoUpdate="true" globalOnly="true" sticky="true" />
+
+	<div class="media">
+		<ui:insert name="content" />
+	</div>
+
+	<ui:insert name="dialogs" />
+
+	<script type="text/javascript"
+		src="#{facesContext.externalContext.requestContextPath}/resources/js/touch.js" />
+	<script>
+	
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	
+	  ga('create', 'UA-41237689-1', 'machadolucas.me');
+	  ga('send', 'pageview');
+	</script>
+
+	<f:event listener="#{growlQueueBean.checkQueueAndDisplay}"
+		type="postAddToView" />
+
+</h:body>
+</html>

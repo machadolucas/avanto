@@ -1,0 +1,110 @@
+
+<!DOCTYPE HTML>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/admin/template.xhtml">
+
+
+	<ui:define name="breadcrumb">
+		<p:breadCrumb>
+			<p:menuitem value="#{msg.admin_menu_home}"
+				title="#{msg.admin_menu_home}" url="../index.jsf" />
+			<p:menuitem value="#{msg.admin_menu_general}"
+				title="#{msg.admin_menu_general}" url="#" />
+			<p:menuitem value="#{msg.admin_menu_general_user_config}"
+				title="#{msg.admin_menu_general_user_config}" url="main.jsf" />
+			<p:menuitem value="#{msg.admin_entity_edit}"
+				title="#{msg.admin_entity_edit}" url="#" />
+		</p:breadCrumb>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h1>
+			<h:outputText value="#{msg.admin_entity_edit}" />
+		</h1>
+
+		<h:form styleClass="adminForm">
+
+
+			<p:fieldset>
+				<p:panelGrid columns="4"
+					columnClasses="requiredSymbolColumn,labelColumn,inputColumn,messagesColumn">
+
+					<h:outputText value="*" />
+					<h:outputLabel value="#{msg.admin_webappuser_field_name}"
+						for="name" />
+					<p:inputText id="name" value="#{webAppUserBean.bean.name}"
+						required="true" requiredMessage="#{msg.required_field_message}" />
+					<p:messages for="name" />
+
+					<h:outputText value="*" />
+					<h:outputLabel value="#{msg.admin_webappuser_field_email}"
+						for="email" />
+					<p:inputText id="email" value="#{webAppUserBean.bean.email}"
+						required="true" requiredMessage="#{msg.required_field_message}" />
+					<p:messages for="email" />
+
+				</p:panelGrid>
+			</p:fieldset>
+
+			<br />
+
+			<p:fieldset legend="#{msg.admin_webappuser_fieldset_password}"
+				rendered="#{loginBean.current.id eq webAppUserBean.bean.id}"
+				toggleable="true" collapsed="true">
+				<p:panelGrid columns="4"
+					columnClasses="requiredSymbolColumn,labelColumn,inputColumn,messagesColumn">
+
+					<h:outputText value="*" />
+					<h:outputLabel value="#{msg.admin_webappuser_field_oldpassword}"
+						for="oldpassword" />
+					<p:password id="oldpassword" value="#{webAppUserBean.oldPassword}"
+						required="#{webAppUserBean.oldPassword != null}"
+						requiredMessage="#{msg.required_field_message}" />
+					<p:messages for="oldpassword" />
+
+					<h:outputText value="*" />
+					<h:outputLabel value="#{msg.admin_webappuser_field_password}"
+						for="password" />
+					<p:password id="password" value="#{webAppUserBean.newPassword}"
+						required="#{webAppUserBean.oldPassword != null}"
+						match="passwordconf" feedback="true" inline="true"
+						requiredMessage="#{msg.required_field_message}" />
+					<p:messages for="password" />
+
+					<h:outputText value="*" />
+					<h:outputLabel
+						value="#{msg.admin_webappuser_field_password_confirmation}"
+						for="passwordconf" />
+					<p:password id="passwordconf" value="#{webAppUserBean.newPassword}"
+						required="#{webAppUserBean.oldPassword != null}"
+						requiredMessage="#{msg.required_field_message}" />
+					<p:messages for="passwordconf" />
+
+				</p:panelGrid>
+			</p:fieldset>
+
+			<br />
+
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:commandButton label="#{msg.admin_entity_save}"
+						value="#{msg.admin_entity_save}" title="#{msg.admin_entity_save}"
+						action="#{webAppUserBean.update}" icon="ui-icon ui-icon-disk"
+						update="@form"
+						disabled="#{not (loginBean.current.id eq webAppUserBean.bean.id)}" />
+					<p:commandButton label="#{msg.admin_entity_cancel}"
+						value="#{msg.admin_entity_cancel}"
+						action="#{webAppUserBean.cancel}"
+						title="#{msg.admin_entity_cancel}" icon="ui-icon ui-icon-cancel"
+						immediate="true" />
+				</p:toolbarGroup>
+			</p:toolbar>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

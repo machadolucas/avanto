@@ -1,0 +1,200 @@
+
+<!DOCTYPE HTML>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/admin/template.xhtml">
+
+	<ui:define name="content">
+		<p:toolbar>
+			<p:toolbarGroup>
+				<p:commandButton value="Print" type="button" icon="ui-icon-print">
+					<p:printer target="system" />
+				</p:commandButton>
+			</p:toolbarGroup>
+		</p:toolbar>
+		<p:panel id="system">
+		<p:panel id="sysinfo" toggleable="true" header="System Info"
+			collapsed="true">
+
+			<p:panelGrid columns="2">
+				<h:outputText value="Available processors (cores)" />
+				<h:outputText value="#{systemBean.runtime.availableProcessors()}" />
+
+				<h:outputText value="Free memory (bytes)" />
+				<h:outputText value="#{systemBean.runtime.freeMemory()}" />
+
+				<h:outputText value="Maximum memory (bytes)" />
+				<h:outputText value="#{systemBean.runtime.maxMemory()}" />
+
+				<h:outputText value="Total memory (bytes)" />
+				<h:outputText value="#{systemBean.runtime.totalMemory()}" />
+
+			</p:panelGrid>
+
+			<p:separator />
+
+			<p:panelGrid columns="2">
+				<h:outputText value="java.version" />
+				<h:outputText value="#{systemBean.sysProp('java.version')}" />
+
+				<h:outputText value="java.vendor " />
+				<h:outputText value="#{systemBean.sysProp('java.vendor')}" />
+
+				<h:outputText value="java.vendor.url" />
+				<h:outputText value="#{systemBean.sysProp('java.vendor.url')}" />
+
+				<h:outputText value="java.home" />
+				<h:outputText value="#{systemBean.sysProp('java.home')}" />
+
+				<h:outputText />
+				<h:outputText />
+
+				<h:outputText value="java.vm.specification.version" />
+				<h:outputText
+					value="#{systemBean.sysProp('java.vm.specification.version')}" />
+
+				<h:outputText value="java.vm.specification.vendor" />
+				<h:outputText
+					value="#{systemBean.sysProp('java.vm.specification.vendor')}" />
+
+				<h:outputText value="java.vm.specification.name" />
+				<h:outputText
+					value="#{systemBean.sysProp('java.vm.specification.name')}" />
+
+				<h:outputText value="java.vm.version" />
+				<h:outputText value="#{systemBean.sysProp('java.vm.version')}" />
+
+				<h:outputText value="java.vm.vendor" />
+				<h:outputText value="#{systemBean.sysProp('java.vm.vendor')}" />
+
+				<h:outputText value="java.vm.name" />
+				<h:outputText value="#{systemBean.sysProp('java.vm.name')}" />
+
+				<h:outputText />
+				<h:outputText />
+
+				<h:outputText value="java.specification.version" />
+				<h:outputText
+					value="#{systemBean.sysProp('java.specification.version')}" />
+
+				<h:outputText value="java.specification.vendor" />
+				<h:outputText
+					value="#{systemBean.sysProp('java.specification.vendor')}" />
+
+				<h:outputText value="java.specification.name" />
+				<h:outputText
+					value="#{systemBean.sysProp('java.specification.name')}" />
+
+				<h:outputText />
+				<h:outputText />
+
+				<h:outputText value="java.class.version" />
+				<h:outputText value="#{systemBean.sysProp('java.class.version')}" />
+
+				<h:outputText value="java.class.path" />
+				<h:outputText value="#{systemBean.sysProp('java.class.path')}" />
+
+				<h:outputText value="java.library.path" />
+				<h:outputText value="#{systemBean.sysProp('java.library.path')}" />
+
+				<h:outputText value="java.io.tmpdir" />
+				<h:outputText value="#{systemBean.sysProp('java.io.tmpdir')}" />
+
+				<h:outputText />
+				<h:outputText />
+
+				<h:outputText value="os.name" />
+				<h:outputText value="#{systemBean.sysProp('os.name')}" />
+
+				<h:outputText value="os.arch" />
+				<h:outputText value="#{systemBean.sysProp('os.arch')}" />
+
+				<h:outputText value="os.version" />
+				<h:outputText value="#{systemBean.sysProp('os.version')}" />
+
+				<h:outputText value="file.separator" />
+				<h:outputText value="#{systemBean.sysProp('file.separator')}" />
+
+				<h:outputText />
+				<h:outputText />
+
+				<h:outputText value="user.name" />
+				<h:outputText value="#{systemBean.sysProp('user.name')}" />
+
+				<h:outputText value="user.home" />
+				<h:outputText value="#{systemBean.sysProp('user.home')}" />
+
+				<h:outputText value="user.dir" />
+				<h:outputText value="#{systemBean.sysProp('user.dir')}" />
+
+			</p:panelGrid>
+
+			<p:separator style="height:3px" />
+
+			<h2>File System</h2>
+			<ui:repeat var="item" value="#{systemBean.roots}">
+				<p:panelGrid columns="2">
+					<h:outputText value="File system root" />
+					<h:outputText value="#{item.absolutePath}" />
+
+					<h:outputText value="Total space (bytes)" />
+					<h:outputText value="#{item.totalSpace}" />
+
+					<h:outputText value="Free space (bytes)" />
+					<h:outputText value="#{item.freeSpace}" />
+
+					<h:outputText value="Usable space (bytes)" />
+					<h:outputText value="#{item.usableSpace}" />
+
+				</p:panelGrid>
+				<p:separator />
+			</ui:repeat>
+		</p:panel>
+
+		<p:spacer height="20px" width="1px" />
+
+		<p:panel id="jvminfo" toggleable="true" header="JVM Memory Monitor"
+			collapsed="true">
+
+			<h2>Memory MXBean</h2>
+			<p:panelGrid columns="2">
+
+				<h:outputText value="Heap Memory Usage" />
+				<h:outputText value="#{systemBean.memoryMXBean.heapMemoryUsage}" />
+
+				<h:outputText value="Non-Heap Memory Usage" />
+				<h:outputText value="#{systemBean.memoryMXBean.nonHeapMemoryUsage}" />
+
+			</p:panelGrid>
+
+			<p:separator style="height:3px" />
+
+			<h2>Memory Pool MXBeans</h2>
+			<ui:repeat var="item" value="#{systemBean.memoryPoolMXBeans}">
+				<h3>
+					<h:outputText value="#{item.name}" />
+				</h3>
+				<p:panelGrid columns="2">
+					<h:outputText value="Type" />
+					<h:outputText value="#{item.type}" />
+
+					<h:outputText value="Usage" />
+					<h:outputText value="#{item.usage}" />
+
+					<h:outputText value="Peak Usage" />
+					<h:outputText value="#{item.peakUsage}" />
+
+					<h:outputText value="Collection Usage" />
+					<h:outputText value="#{item.collectionUsage}" />
+
+				</p:panelGrid>
+				<p:separator />
+			</ui:repeat>
+		</p:panel>
+
+		</p:panel>
+	</ui:define>
+</ui:composition>

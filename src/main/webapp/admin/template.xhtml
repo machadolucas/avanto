@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<title><h:outputText value="#{msg.html_title}" /></title>
+
+	<link rel="icon" type="image/ico"
+		href="#{facesContext.externalContext.requestContextPath}/resources/img/favicon.ico" />
+
+	<link rel="stylesheet" type="text/css"
+		href="#{facesContext.externalContext.requestContextPath}/resources/admin.css"
+		media="all" />
+
+	<script
+		src="#{facesContext.externalContext.requestContextPath}/resources/js/admin.js" />
+
+	<ui:insert name="head" />
+</h:head>
+<h:body onload="on_body_load">
+	<p:growl id="growl" showDetail="true" showSummary="true"
+		autoUpdate="true" sticky="true" />
+
+	<p:layout fullPage="true">
+
+		<p:layoutUnit id="north" position="north" gutter="0"
+			collapsible="true">
+			<h:panelGrid border="0" columns="2" styleClass="topTable">
+
+				<h:panelGroup>
+					<h2>
+						<h:outputText value="#{msg.admin_title}" />
+					</h2>
+				</h:panelGroup>
+
+				<h:panelGroup>
+					<h:form id="northForm">
+						<p:menuButton
+							value="#{msg.admin_loggedas} #{loginBean.current.name}"
+							style="float: right; margin-right:5px;">
+							<p:menuitem value="#{msg.admin_edituser}"
+								disabled="#{not loginBean.isLoggedIn()}"
+								action="#{webAppUserBean.editCurrentUser}"
+								icon="ui-icon ui-icon-pencil" />
+							<p:menuitem value="#{msg.admin_logoff}"
+								icon="ui-icon ui-icon-close" action="#{loginBean.logout}" />
+						</p:menuButton>
+					</h:form>
+				</h:panelGroup>
+			</h:panelGrid>
+
+		</p:layoutUnit>
+
+		<p:layoutUnit id="west" position="west" size="200" collapsible="true"
+			header="Menu" effect="drop">
+			<h:form id="westForm">
+				<p:menu styleClass="westMenu">
+					<p:menuitem value="#{msg.admin_menu_home}" url="/admin/index.jsf"
+						icon="ui-icon-home" />
+					<p:submenu label="#{msg.admin_menu_data}">
+						<p:menuitem value="#{msg.admin_menu_data_posts}"
+							url="/admin/posts/main.jsf" icon="ui-icon-folder-collapsed" />
+						<p:menuitem value="#{msg.admin_menu_data_author}"
+							url="/admin/author/main.jsf" icon="ui-icon-person" />
+					</p:submenu>
+					<p:submenu label="#{msg.admin_menu_general}">
+						<p:menuitem value="#{msg.admin_menu_general_user_config}"
+							url="/admin/webappuser/main.jsf" icon="ui-icon-person" />
+						<p:menuitem value="#{msg.admin_menu_data_parameter}"
+							url="/admin/parameter/main.jsf" icon="ui-icon-key" />
+					</p:submenu>
+					<p:submenu label="#{msg.admin_menu_system}">
+						<p:menuitem value="#{msg.admin_menu_system_index}"
+							url="/admin/other/system.jsf" icon="ui-icon-wrench" />
+					</p:submenu>
+					<p:submenu label="#{msg.admin_menu_actions}">
+						<p:menuitem value="#{msg.admin_menu_open_blog}"
+							url="/blogsystem/index.jsf" icon="ui-icon-extlink"
+							target="_blank" />
+						<p:menuitem value="#{msg.admin_menu_reload_blog}"
+							actionListener="#{blogBean.reloadBean()}" icon="ui-icon-refresh" />
+					</p:submenu>
+				</p:menu>
+			</h:form>
+		</p:layoutUnit>
+
+		<p:layoutUnit position="center">
+			<ui:insert name="breadcrumb" />
+			<br />
+			<ui:insert name="content" />
+		</p:layoutUnit>
+
+	</p:layout>
+
+	<ui:insert name="dialogs" />
+
+	<p:ajaxStatus onstart="statusDialog.show();"
+		oncomplete="statusDialog.hide();" />
+
+	<p:dialog modal="true" closable="false" draggable="false"
+		resizable="false" showHeader="false" widgetVar="statusDialog">
+		<h:panelGrid style="text-align: center;">
+			<h:outputText value="#{msg.ajaxstatus_loading_message}" />
+			<p:graphicImage value="/resources/img/loading.gif" />
+		</h:panelGrid>
+	</p:dialog>
+
+</h:body>
+</html>

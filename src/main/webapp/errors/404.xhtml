@@ -1,0 +1,117 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><h:outputText value="Lucas Machado" /></title>
+
+	<style>
+		html {
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-moz-user-select: -moz-none;
+			-khtml-user-select: none;
+			user-select: none;
+			-webkit-font-smoothing: antialiased;
+			background-color: black;
+			color: white;
+			font-family: "Lucida Grande", "Lucida Sans Unicode", sans-serif;
+		}
+		
+		body {
+			padding: 5%;
+		}
+		
+		h1 {
+			font-size: 8em;
+		}
+		
+		p {
+			font-size: 1.4em;
+		}
+		
+		@-webkit-keyframes back-moving {
+			from {
+				left: 0;
+				top: 0;
+			}
+			to { 
+				left: -10000px;
+				top: -2000px;
+			}
+		}
+		@keyframes back-moving {
+		  	from {
+				left: 0;
+				top: 0;
+			}
+			to { 
+				left: -10000px;
+				top: -2000px;
+			}
+		}
+		#background {
+			background: black url(resources/img/background.png) repeat 5% 5%;
+			position: absolute;
+			top: 0; left: 0; right: 0; bottom: 0;
+			z-index: 100;
+			
+			-webkit-animation-name: back-moving;
+			-webkit-animation-duration: 280s;
+			-webkit-animation-timing-function: linear;
+			-webkit-animation-iteration-count: infinite;
+		}
+		
+		#midground {
+			background: url(resources/img/midground.png) repeat 20% 20%;
+			position: absolute;
+			top: 0; left: 0; right: 0; bottom: 0;
+			z-index: 200;
+			
+			-webkit-animation-name: back-moving;
+			-webkit-animation-duration: 210s;
+			-webkit-animation-timing-function: linear;
+			-webkit-animation-iteration-count: infinite;
+		}
+		
+		#foreground {
+			background: url(resources/img/foreground.png) repeat 35% 35%;
+			position: absolute;
+			top: 0; left: 0; right: 0; bottom: 0;
+			z-index: 300;
+			
+			-webkit-animation-name: back-moving;
+			-webkit-animation-duration: 140s;
+			-webkit-animation-timing-function: linear;
+			-webkit-animation-iteration-count: infinite;
+		}
+		#content {
+			z-index: 300;
+			position: relative;
+		}
+		</style>
+</h:head>
+
+<h:body>
+
+	<div id="background"></div>
+    <div id="midground"></div>
+    <div id="foreground"></div>
+	    
+	<div id="content">
+		<h1>
+			<h:outputText value="404" />
+		</h1>
+		<p>
+			<h:outputText value="Sorry. There's really nothing here." />
+		</p>
+	</div>
+
+</h:body>
+
+</html>

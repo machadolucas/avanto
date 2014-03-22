@@ -1,0 +1,67 @@
+
+<!DOCTYPE HTML>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/admin/template.xhtml">
+
+	<ui:define name="content">
+
+		<p:panel toggleable="true" header="System Info">
+
+			<p:panelGrid columns="2">
+
+				<h:outputText value="Available processors (cores)" />
+				<h:outputText value="#{systemBean.runtime.availableProcessors()}" />
+
+				<h:outputText value="Free memory (bytes)" />
+				<h:outputText value="#{systemBean.runtime.freeMemory()}" />
+
+				<h:outputText value="Total memory (bytes)" />
+				<h:outputText value="#{systemBean.runtime.totalMemory()}" />
+
+			</p:panelGrid>
+
+			<p:separator />
+
+			<p:panelGrid columns="2">
+
+				<h:outputText value="java.vm.name" />
+				<h:outputText value="#{systemBean.sysProp('java.vm.name')}" />
+
+				<h:outputText value="java.version" />
+				<h:outputText value="#{systemBean.sysProp('java.version')}" />
+
+				<h:outputText value="java.vendor " />
+				<h:outputText value="#{systemBean.sysProp('java.vendor')}" />
+
+				<h:outputText value="java.vendor.url" />
+				<h:outputText value="#{systemBean.sysProp('java.vendor.url')}" />
+
+				<h:outputText />
+				<h:outputText />
+
+				<h:outputText value="os.name" />
+				<h:outputText value="#{systemBean.sysProp('os.name')}" />
+
+				<h:outputText value="os.arch" />
+				<h:outputText value="#{systemBean.sysProp('os.arch')}" />
+
+				<h:outputText value="os.version" />
+				<h:outputText value="#{systemBean.sysProp('os.version')}" />
+
+				<h:outputText value="user.name" />
+				<h:outputText value="#{systemBean.sysProp('user.name')}" />
+
+				<h:outputText value="user.home" />
+				<h:outputText value="#{systemBean.sysProp('user.home')}" />
+
+			</p:panelGrid>
+
+		</p:panel>
+
+
+	</ui:define>
+</ui:composition>

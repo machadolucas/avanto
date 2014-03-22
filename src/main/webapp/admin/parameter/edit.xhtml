@@ -1,0 +1,75 @@
+
+<!DOCTYPE HTML>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/admin/template.xhtml">
+
+
+	<ui:define name="breadcrumb">
+		<p:breadCrumb>
+			<p:menuitem value="#{msg.admin_menu_home}"
+				title="#{msg.admin_menu_home}" url="../index.jsf" />
+			<p:menuitem value="#{msg.admin_menu_data}"
+				title="#{msg.admin_menu_data}" url="#" />
+			<p:menuitem value="#{msg.admin_menu_data_parameter}"
+				title="#{msg.admin_menu_data_parameter}" url="main.jsf" />
+			<p:menuitem value="#{msg.admin_entity_edit}"
+				title="#{msg.admin_entity_edit}" url="#" />
+		</p:breadCrumb>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h1>
+			<h:outputText value="#{msg.admin_entity_edit}" />
+		</h1>
+
+
+		<h:form id="mainForm" styleClass="adminForm">
+
+			<p:fieldset>
+				<p:panelGrid columns="4"
+					columnClasses="requiredSymbolColumn,labelColumn,inputColumn,messagesColumn">
+
+					<h:outputText value="*" />
+					<h:outputLabel value="Name" for="name" />
+					<p:inputText id="name" value="#{parameterBean.bean.name}"
+						required="true" requiredMessage="#{msg.required_field_message}" />
+					<p:messages for="name" />
+
+					<h:outputText value="*" />
+					<h:outputLabel value="Value" for="value" />
+					<p:inputText id="value" value="#{parameterBean.bean.value}"
+						required="true" requiredMessage="#{msg.required_field_message}" />
+					<p:messages for="value" />
+
+					<h:outputText />
+					<h:outputLabel value="Description" for="description" />
+					<p:inputTextarea id="description"
+						value="#{parameterBean.bean.description}" />
+					<p:messages for="description" />
+
+				</p:panelGrid>
+			</p:fieldset>
+
+			<br />
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:commandButton label="#{msg.admin_entity_save}"
+						value="#{msg.admin_entity_save}" title="#{msg.admin_entity_save}"
+						action="#{parameterBean.update}" icon="ui-icon ui-icon-disk"
+						update=":mainForm" />
+					<p:commandButton label="#{msg.admin_entity_cancel}"
+						value="#{msg.admin_entity_cancel}"
+						action="#{parameterBean.cancel}"
+						title="#{msg.admin_entity_cancel}" icon="ui-icon ui-icon-cancel"
+						immediate="true" />
+				</p:toolbarGroup>
+			</p:toolbar>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

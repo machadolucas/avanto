@@ -1,0 +1,85 @@
+
+<!DOCTYPE HTML>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/resources/template/template.xhtml">
+
+	<ui:define name="head">
+		<title><h:outputText
+				value="#{individualAuthorBean.actual.name}" /></title>
+				
+		<meta property="og:title" content="#{individualAuthorBean.actual.name}" />
+		<meta property="og:url" content="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}#{individualAuthorBean.actual.url}" />
+
+	</ui:define>
+
+	<ui:define name="content">
+		<p:breadCrumb styleClass="blog">
+			<p:menuitem value="#{msg.site_menu_index}" url="http://machadolucas.me" />
+			<p:menuitem value="#{msg.site_menu_blog}" url="../../blog" />
+			<p:menuitem value="#{individualAuthorBean.actual.name}" url="#" />
+		</p:breadCrumb>
+
+		<div class="headBlurry">
+			<header>
+			<h1 class="posttitle">
+				<span itemprop="author" itemtype="http://schema.org/Person"
+					itemscope=""> <h:outputLink
+						value="#{individualAuthorBean.actual.url}" itemprop="name">
+						<h:outputText value="#{individualAuthorBean.actual.name}" />
+					</h:outputLink>
+				</span>
+			</h1>
+			</header>
+		</div>
+
+		<div id="framepost">
+			<p:graphicImage
+				rendered="#{individualAuthorBean.actual.photoUrl != null}"
+				styleClass="authorPhoto"
+				url="#{individualAuthorBean.actual.photoUrl}" />
+			<p class="authorDescription" style="min-height: 260px">
+				<h:outputText value="#{individualAuthorBean.actual.description}" />
+			</p>
+			<ul class="authorLinks">
+				<h:outputLink rendered="#{individualAuthorBean.actual.facebook != ''}" value="#{individualAuthorBean.actual.facebook}" target="_blank">
+					<li>Facebook</li>
+				</h:outputLink>
+				<h:outputLink rendered="#{individualAuthorBean.actual.twitter != ''}" value="#{individualAuthorBean.actual.twitter}" target="_blank">
+					<li>Twitter</li>
+				</h:outputLink>
+				<h:outputLink rendered="#{individualAuthorBean.actual.linkedin != ''}" value="#{individualAuthorBean.actual.linkedin}" target="_blank">
+					<li>LinkedIn</li>
+				</h:outputLink>
+			</ul>
+
+			<h:form>
+				<p:dataList value="#{individualAuthorBean.authorPosts}"
+					var="element" paginator="true" rows="10" emptyMessage="#{msg.primefaces_datatable_empty_message}" 
+					paginatorAlwaysVisible="false" type="definition">
+
+					<f:facet name="header">
+						<h:outputText value="#{msg.admin_posts_datatable_header}" />
+					</f:facet>
+
+					<h:outputLink value="#{element.url}" target="_blank">
+						<h:outputText value="#{element.title} " />
+						<h:outputFormat value="#{element.date}">
+							<f:convertDateTime pattern="(dd.MM.YYYY)" />
+						</h:outputFormat>
+					</h:outputLink>
+				</p:dataList>
+			</h:form>
+
+
+		</div>
+
+		<p:spacer height="100" />
+		
+
+	</ui:define>
+</ui:composition>

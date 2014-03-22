@@ -1,0 +1,26 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces
+                      http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd">
+
+	<url-mapping id="index">
+		<pattern value="/" />
+		<view-id value="/blog.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="blog">
+		<pattern value="/blog" />
+		<view-id value="/blog.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="blogpost">
+		<pattern value="/post/#{id}/" />
+		<view-id value="/pages/post.jsf" />
+	</url-mapping>
+
+	<url-mapping id="blogauthor">
+		<pattern value="/author/#{id}/" />
+		<view-id value="/pages/author.jsf" />
+	</url-mapping>
+
+</pretty-config>

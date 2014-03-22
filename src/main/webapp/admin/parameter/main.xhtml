@@ -1,0 +1,134 @@
+
+<!DOCTYPE HTML>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/admin/template.xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+
+	<ui:define name="breadcrumb">
+		<p:breadCrumb>
+			<p:menuitem value="#{msg.admin_menu_home}"
+				title="#{msg.admin_menu_home}" url="../index.jsf" />
+			<p:menuitem value="#{msg.admin_menu_data}"
+				title="#{msg.admin_menu_data}" url="#" />
+			<p:menuitem value="#{msg.admin_menu_data_parameter}"
+				title="#{msg.admin_menu_data_parameter}" url="index.jsf" />
+		</p:breadCrumb>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h:form id="mainForm">
+
+			<p:fieldset>
+				<h3>POST_EDIT_AUTOSAVE_TIME</h3>
+				<h:panelGrid columns="2" style="margin:10px">
+					<p:inputText id="autosaveTimeText"
+						style="width:25px; margin-right:20px;"
+						value="#{parameterBean.POST_EDIT_AUTOSAVE_TIME}" />
+					<p:slider for="autosaveTimeText" minValue="15" maxValue="300"
+						step="5" style="width:300px">
+						<p:ajax event="slideEnd"
+							listener="#{parameterBean.updateAutosaveTime}"
+							update="dataTable,autosaveTimeText" />
+					</p:slider>
+				</h:panelGrid>
+			</p:fieldset>
+
+			<ui:include src="/admin/dataexporter-toolbar.xhtml" />
+
+			<p:contextMenu for="dataTable">
+				<p:menuitem value="#{msg.admin_entity_edit}"
+					title="#{msg.admin_entity_edit}" action="#{parameterBean.edit}"
+					icon="ui-icon ui-icon-pencil" />
+				<p:menuitem value="#{msg.admin_entity_delete}"
+					title="#{msg.admin_entity_delete}"
+					actionListener="#{parameterBean.dialogIfSelected}"
+					oncomplete="handleDeletePopupRequest(xhr, status, args)"
+					icon="ui-icon ui-icon-trash" />
+			</p:contextMenu>
+			<p:dataTable id="dataTable"
+				emptyMessage="#{msg.primefaces_datatable_empty_message}"
+				pageLinks="#{msg.primefaces_datatable_pagelinks}" paginator="true"
+				paginatorAlwaysVisible="false" rowKey="#{element.id}" rows="10"
+				selection="#{parameterBean.bean}" var="element"
+				value="#{parameterBean.list}" filteredValue="#{parameterBean.filteredList}"
+				rowsPerPageTemplate="#{msg.primefaces_table_paginator_rows_per_page_template}"
+				selectionMode="single">
+
+				<f:facet name="header">
+					<h:outputText value="#{msg.admin_parameter_datatable_header}" />
+				</f:facet>
+
+				<p:column sortBy="#{element.name}" filterBy="#{element.name}"
+					filterMatchMode="contains"
+					headerText="#{msg.admin_parameter_datatable_name}">
+					<f:facet name="header">
+						<h:outputText value="#{msg.admin_parameter_datatable_name}" />
+					</f:facet>
+					<h:outputText value="#{element.name}" />
+				</p:column>
+
+				<p:column sortBy="#{element.value}" filterBy="#{element.value}"
+					filterMatchMode="contains"
+					headerText="#{msg.admin_parameter_datatable_value}">
+					<f:facet name="header">
+						<h:outputText value="#{msg.admin_parameter_datatable_value}" />
+					</f:facet>
+					<h:outputText value="#{element.value}" />
+				</p:column>
+
+
+			</p:dataTable>
+
+
+
+			<p:toolbar>
+				<p:toolbarGroup>
+					<p:commandButton label="#{msg.admin_entity_add}"
+						value="#{msg.admin_entity_add}" title="#{msg.admin_entity_add}"
+						action="#{parameterBean.add}" icon="ui-icon ui-icon-document" />
+					<p:commandButton label="#{msg.admin_entity_edit}"
+						value="#{msg.admin_entity_edit}" title="#{msg.admin_entity_edit}"
+						action="#{parameterBean.edit}" icon="ui-icon ui-icon-pencil" />
+					<p:commandButton label="#{msg.admin_entity_delete}"
+						value="#{msg.admin_entity_delete}"
+						title="#{msg.admin_entity_delete}"
+						actionListener="#{parameterBean.dialogIfSelected}"
+						oncomplete="handleDeletePopupRequest(xhr, status, args)"
+						icon="ui-icon ui-icon-trash" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+		</h:form>
+
+	</ui:define>
+
+	<ui:define name="dialogs">
+		<p:confirmDialog message="#{msg.command_delete_confirmation} #{parameterBean.bean.name}?"
+			header="#{msg.primefaces_confirmDialog_delete_header}"
+			id="confirmDeleteDialog" widgetVar="confirmDeleteDialogWid">
+			<h:form id="confirmDeleteForm">
+
+				<p:commandButton id="confirmDeleteButton"
+					label="#{msg.global_generic_label_yes}"
+					title="#{msg.command_confirm_alt}"
+					value="#{msg.global_generic_label_yes}"
+					icon="ui-icon ui-icon-trash" update=":mainForm:dataTable,:growl"
+					actionListener="#{parameterBean.delete}"
+					oncomplete="confirmDeleteDialogWid.hide()" />
+				<p:commandButton type="button"
+					label="#{msg.global_generic_label_no}"
+					title="#{msg.command_cancel_alt}"
+					value="#{msg.global_generic_label_no}" icon="ui-icon ui-icon-close"
+					onclick="confirmDeleteDialogWid.hide()" />
+			</h:form>
+
+		</p:confirmDialog>
+	</ui:define>
+
+</ui:composition>

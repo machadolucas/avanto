@@ -1,0 +1,141 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title><h:outputText value="#{msg.html_title}" /></title>
+
+	<style>
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300,400);
+
+html {
+	height: 100%;
+	width: 100%;
+	-webkit-font-smoothing: antialiased;
+	padding: 0;
+}
+
+body {
+	background: rgb(85,85,85);
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzU1NTU1NSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMzMzMzMzMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top,  rgb(85,85,85) 0%, rgb(51,51,51) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(85,85,85)), color-stop(100%,rgb(51,51,51)));
+	background: -webkit-linear-gradient(top,  rgb(85,85,85) 0%,rgb(51,51,51) 100%);
+	background: -o-linear-gradient(top,  rgb(85,85,85) 0%,rgb(51,51,51) 100%);
+	background: -ms-linear-gradient(top,  rgb(85,85,85) 0%,rgb(51,51,51) 100%);
+	background: linear-gradient(to bottom,  rgb(85,85,85) 0%,rgb(51,51,51) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#555555', endColorstr='#333333',GradientType=0 );
+
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	user-select: none;
+	font-size: 80%;
+	font-family: 'Open Sans', sans-serif;
+	margin: 0;
+	padding-top: 200px;
+	width: 100%;
+}
+
+.ui-corner-all {
+	border-radius: 0;
+}
+
+#loginDialog {
+	color: white;
+	width: 750px;
+	margin: auto;
+}
+
+#title {
+	border-right: 2px solid white;
+	font-size: 28px;
+	text-align: right;
+	padding-right: 1em;
+}
+
+.ui-messages {
+	-webkit-transition: all .5s;
+	-moz-transition: all .5s;
+	-ms-transition: all .5s;
+	transition: all .5s;
+}
+
+.ui-messages-error {
+	position: absolute;
+	background: #880008;
+	color: white;
+}
+
+.loginButton {
+	-webkit-transition: all .2s;
+	-moz-transition: all .2s;
+	-ms-transition: all .2s;
+	transition: all .2s;
+}
+
+.loginButton:hover {
+	background: rgba(255, 255, 255, 0.2);
+}
+
+.ui-inputfield {
+	width: 220px;
+	font-size: 1.3em;
+}
+</style>
+	<script>
+function clickLogin(){
+	$( ".ui-messages-error" ).effect( "shake", {times:4, distance:10}, 300 );	
+		
+}
+$(function(){
+});
+</script>
+</h:head>
+<h:body>
+
+	<div id="loginDialog">
+		<h:form>
+
+			<h:panelGrid columns="3" cellpadding="10">
+				<p:column>
+					<h1 id="title">
+						<h:outputText value="#{request.requestURL.substring(0, request.requestURL.length() - request.requestURI.length())}" />
+						<br />
+						<h:outputText value="#{msg.login_header}" />
+					</h1>
+				</p:column>
+				<p:column>
+					<p:inputText value="#{loginBean.email}" id="username"
+						required="true" label="username"
+						requiredMessage="#{msg.required_field_message}"
+						style="margin-bottom:10px" />
+					<p:watermark value="#{msg.login_username}" for="username" />
+					<p:messages for="username" />
+
+					<p:password value="#{loginBean.password}" id="password"
+						required="true" label="password"
+						requiredMessage="#{msg.required_field_message}" />
+					<p:watermark value="#{msg.login_password}" for="password" />
+					<p:messages for="password" />
+
+					<p:messages autoUpdate="true" redisplay="false" showDetail="true" />
+				</p:column>
+				<p:column>
+
+					<h:commandButton id="loginButton" action="#{loginBean.login}"
+						styleClass="loginButton" oncomplete="clickLogin()" update="@form"
+						type="submit" image="resources/img/dark/appbar.arrow.right.png">
+					</h:commandButton>
+				</p:column>
+			</h:panelGrid>
+		</h:form>
+	</div>
+
+</h:body>
+</html>

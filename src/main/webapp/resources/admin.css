@@ -1,0 +1,181 @@
+@CHARSET "UTF-8";
+
+::-moz-selection {
+	background: #999999;
+}
+
+::selection {
+	background: #999999;
+}
+
+html {
+	height: 100%;
+	width: 100%;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizelegibility;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-moz-user-select: -moz-none;
+	-khtml-user-select: none;
+	user-select: none;
+}
+
+body {
+	font-size: 70%;
+	margin: 0;
+	padding: 0;
+	background-color: #b0b0b0;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	padding-left: 1em;
+}
+
+.ui-fieldset.ui-widget.ui-widget-content {
+	
+}
+
+#north,#north div {
+	padding: 0;
+	border: none;
+	background: transparent;
+}
+
+.topTable {
+	table-layout: fixed;
+	border-collapse: collapse;
+	width: 100%;
+	
+	cursor: default;
+}
+.topTable h2 { margin: 0px; font-size: 1.6em; font-weight: normal; line-height: 36px; color: #000;}
+
+.userInfoTopTableColumn {
+	text-align: right;
+	vertical-align: middle;
+}
+
+#west,#west div {
+	
+}
+
+.westMenu {
+	width: 96%;
+}
+
+.adminForm {
+	padding: 0px 15px 0px 15px;
+}
+
+.ui-panelgrid.ui-widget tbody tr,.ui-panelgrid.ui-widget tbody tr td {
+	border: none;
+}
+
+.requiredSymbolColumn {
+	color: #CC0000;
+	font-weight: bold;
+	vertical-align: middle;
+	width: 5px;
+}
+
+.labelColumn {
+	vertical-align: middle;
+	font-weight: bold;
+	width: auto;
+}
+
+.labelColumnWithMinimalWidth {
+	vertical-align: middle;
+	width: 95px;
+}
+
+.labelColumnWithMaximumWidth {
+	vertical-align: middle;
+	width: 150px;
+}
+
+.inputColumn {
+	vertical-align: top;
+	width: 300px;
+	font-weight: bold;
+}
+
+.messagesColumn {
+	vertical-align: middle;
+	width: 300px;
+}
+
+.titleInput {
+	width: 750px;
+	font-weight: bold !important;
+	font-size: 2em !important;
+}
+
+.lastautosaveContainer {
+	width: 800px;
+	margin: 10px;
+}
+
+.lastautosave {
+	font-weight: bold;
+	font-style: italic;
+	padding: 10px 620px 10px 10px;
+	width: 100%;
+}
+
+.highlightfade {
+	-webkit-animation: highlightfade 1.5s linear;
+	-moz-animation: highlightfade 1.5s linear;
+	-ms-animation: highlightfade 1.5s linear;
+	-o-animation: highlightfade 1.5s linear;
+}
+
+@-webkit-keyframes highlightfade { 
+	0% {background: #ffff77}
+	40%{background: #ffff00;}
+	40.01 % {background: #ffff77}
+	100%{background:transparent;}
+}
+@keyframes highlightfade {
+	0% {background: #ffff77}
+	40%{background: #ffff00;}
+	40.01 % {background: #ffff77}
+	100%{background:transparent;}
+}
+@-webkit-keyframes blinking {
+	0% {opacity: 0}
+	30%{opacity:1}
+	30.01 % {opacity: 1}
+	60%{opacity:1}
+	60.01 % {opacity: 1}
+	100%{opacity:0}
+}
+@keyframes blinking {
+	0% {opacity: 0}
+	30%{opacity:1}
+	30.01 % {opacity: 1}
+	60%{opacity:1}
+	60.01 % {opacity: 1}
+	100%{opacity:0}
+}
+.blinking {
+	-webkit-animation: blinking 1s infinite linear;
+	-moz-animation: blinking 1s infinite linear;
+	-ms-animation: blinking 1s infinite linear;
+	-o-animation: blinking 1s infinite linear;
+}
+
+@MEDIA print {
+	.ui-breadcrumb {
+		display: none !important;
+		visibility: hidden !important;
+	}
+	.dataexporter {
+		display: none !important;
+		visibility: hidden !important;
+	}
+	.ui-toolbar {
+		display: none !important;
+		visibility: hidden !important;
+	}
+}
